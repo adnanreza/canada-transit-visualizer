@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'playwright-report', 'test-results', '.vite-react-ssg-temp']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -17,6 +17,24 @@ export default defineConfig([
     ],
     languageOptions: {
       globals: globals.browser,
+    },
+  },
+  {
+    files: ['src/**/__tests__/**/*.{ts,tsx}', 'src/**/*.{test,spec}.{ts,tsx}', 'src/test/**/*.ts'],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+    },
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  {
+    files: ['e2e/**/*.{ts,tsx}', 'playwright.config.ts', 'vitest.config.ts'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
 ])

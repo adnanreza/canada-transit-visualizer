@@ -35,7 +35,25 @@ npm run build      # vite-react-ssg build → dist/
 npm run preview    # serve the production build locally
 npm run typecheck
 npm run lint
+npm run test       # vitest (unit + integration)
+npm run test:e2e   # playwright (visual e2e against the production build)
+npm run test:all   # everything above, in order
 ```
+
+## Spec-driven workflow
+
+The repo ships a five-step Claude Code workflow (skills live in
+`.claude/skills/`). Each step is a slash command:
+
+| Skill | What it does |
+|---|---|
+| `/feature-load <spec>` | Load a spec (file path or inline text) as the contract for the feature. Asks clarifying questions, persists the spec to `.claude/current-feature.md`. |
+| `/feature-start` | Pulls main, creates `<type>/<slug>` off it, and drives the implementation against the loaded spec. |
+| `/feature-test` | Runs typecheck + lint + build + Vitest + Playwright. Fails fast. |
+| `/feature-review` | Verifies the diff against every requirement in the spec. Flags gaps and over-build. Drafts the PR title and body. |
+| `/feature-complete` | Re-runs the full test suite, commits any leftovers, pushes the branch, and opens a PR against `main`. Adnan reviews and squash-merges on GitHub. |
+
+Specs live in `specs/<slug>.md`. See `specs/EXAMPLE.md` for the shape.
 
 ## Deployment
 

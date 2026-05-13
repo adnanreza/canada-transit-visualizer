@@ -1,12 +1,15 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useSyncExternalStore, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
   fallback?: ReactNode;
 };
 
+const subscribe = () => () => {};
+const getClient = () => true;
+const getServer = () => false;
+
 export default function ClientOnly({ children, fallback = null }: Props) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return <>{mounted ? children : fallback}</>;
+  const isClient = useSyncExternalStore(subscribe, getClient, getServer);
+  return <>{isClient ? children : fallback}</>;
 }
