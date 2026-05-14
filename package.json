@@ -14,7 +14,8 @@
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "test:all": "npm run typecheck && npm run lint && npm run build && npm run test && npm run test:e2e"
+    "test:all": "npm run typecheck && npm run lint && npm run build && npm run test && npm run test:e2e",
+    "clean:branches": "bash scripts/clean-merged-branches.sh"
   },
   "dependencies": {
     "@deck.gl/core": "^9.3.2",
