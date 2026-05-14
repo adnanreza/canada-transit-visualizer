@@ -61,7 +61,9 @@ Wraps up a feature: commits any uncommitted work, pushes the branch, and opens a
    )"
    ```
 
-7. **Report the PR URL** in one line. End the skill — do not attempt to merge.
+7. **Report the PR URL** in one line.
+
+8. **Return to main.** Run `git switch main && git pull` so the working tree is clean and ready for the next `/feature-load`. The local feature branch stays in place until the next `/feature-load` reports it stale (after the PR is squash-merged on GitHub and `origin/<branch>` auto-deletes, the local copy will show `: gone]` and be safe to delete).
 
 ## What this skill does NOT do
 
