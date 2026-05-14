@@ -65,7 +65,11 @@ Wraps up a feature: commits any uncommitted work, pushes the branch, and opens a
 
 8. **Return to main.** Run `git switch main && git pull` so the working tree is clean for the next `/feature-load`.
 
-9. **Clean up stale branches.** Run `npm run clean:branches`. This force-deletes any local branch whose origin counterpart has been deleted — typically branches from previously-merged PRs (squash-merge creates a new commit on `main`, so `git branch -d` doesn't recognize the merge and refuses; the remote being gone is the strongest signal the work has landed). The branch from the PR *just* opened is **not** stale yet — its remote is alive — so it survives this cleanup and will be reaped on the next `/feature-complete` after Adnan merges it.
+9. **Clean up stale branches (local + remote).** Run `npm run clean:branches`. Two cleanup cases:
+   - **Local** — force-deletes any local branch whose origin counterpart is gone (typically previously-merged PRs; squash-merge creates a new commit on `main` so `git branch -d` doesn't recognize the merge and refuses; the upstream-gone signal is the strongest proof the work has landed).
+   - **Remote** — deletes any remote branch on `origin` whose PR is MERGED on GitHub. Belt-and-suspenders for the rare case auto-delete-on-merge didn't fire (setting was off when the PR merged, or the branch was re-pushed after merge).
+
+   The branch from the PR *just* opened is not stale yet — its remote is alive, its PR is open — so it survives this cleanup and will be reaped on the next `/feature-complete` after Adnan merges it.
 
 ## What this skill does NOT do
 
